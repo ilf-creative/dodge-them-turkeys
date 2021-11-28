@@ -9,6 +9,5 @@ export_presets.cfg
 data_*/
 
 .DS_Store
-build/android
-build/ios
+build
 android
