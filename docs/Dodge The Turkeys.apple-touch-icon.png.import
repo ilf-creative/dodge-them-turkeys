@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Dodge The Turkeys.apple-touch-icon.png-3541b6477263765331121e4ff8c68f2b.stex"
+path="res://.import/Dodge The Turkeys.apple-touch-icon.png-f711123e489cd65b51df2baa3af4f2e7.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://build/web/Dodge The Turkeys.apple-touch-icon.png"
-dest_files=[ "res://.import/Dodge The Turkeys.apple-touch-icon.png-3541b6477263765331121e4ff8c68f2b.stex" ]
+source_file="res://docs/Dodge The Turkeys.apple-touch-icon.png"
+dest_files=[ "res://.import/Dodge The Turkeys.apple-touch-icon.png-f711123e489cd65b51df2baa3af4f2e7.stex" ]
 
 [params]
 

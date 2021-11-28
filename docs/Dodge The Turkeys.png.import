@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Dodge The Turkeys.png-c247f80cb1591466cc7f309d41bc277c.stex"
+path="res://.import/Dodge The Turkeys.png-2be7cf20ce775b77a101e50353c42999.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://build/web/Dodge The Turkeys.png"
-dest_files=[ "res://.import/Dodge The Turkeys.png-c247f80cb1591466cc7f309d41bc277c.stex" ]
+source_file="res://docs/Dodge The Turkeys.png"
+dest_files=[ "res://.import/Dodge The Turkeys.png-2be7cf20ce775b77a101e50353c42999.stex" ]
 
 [params]
 
