@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/turkeys-win.mp3-183d2fe3448676eb5cc2c610b0e7324d.mp3str"
+
+[deps]
+
+source_file="res://dodge_assets/audio/turkeys-win.mp3"
+dest_files=[ "res://.import/turkeys-win.mp3-183d2fe3448676eb5cc2c610b0e7324d.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

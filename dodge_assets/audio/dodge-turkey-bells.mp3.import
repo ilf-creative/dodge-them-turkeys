@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/dodge-turkey-bells.mp3-5a9d0f6ef18a42f3a6b11b28d1ae31c3.mp3str"
+
+[deps]
+
+source_file="res://dodge_assets/audio/dodge-turkey-bells.mp3"
+dest_files=[ "res://.import/dodge-turkey-bells.mp3-5a9d0f6ef18a42f3a6b11b28d1ae31c3.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

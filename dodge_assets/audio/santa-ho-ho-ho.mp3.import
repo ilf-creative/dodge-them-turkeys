@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/santa-ho-ho-ho.mp3-0179317a4e02b8b340f515de7317d2ba.mp3str"
+
+[deps]
+
+source_file="res://dodge_assets/audio/santa-ho-ho-ho.mp3"
+dest_files=[ "res://.import/santa-ho-ho-ho.mp3-0179317a4e02b8b340f515de7317d2ba.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0
