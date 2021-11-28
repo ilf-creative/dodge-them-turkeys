@@ -17,11 +17,21 @@ func _ready():
 	screen_size = get_viewport_rect().size
 	hide()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):	
-	var velocity = Vector2()  # The player's movement vector.
+	var velocity = Vector2() 
 	
-	if (target != Vector2.ZERO): # touch control
+	# keyboard control
+	if Input.is_action_pressed("ui_right"):
+		velocity.x += 1
+	if Input.is_action_pressed("ui_left"):
+		velocity.x -= 1
+	if Input.is_action_pressed("ui_down"):
+		velocity.y += 1
+	if Input.is_action_pressed("ui_up"):
+		velocity.y -= 1
+	
+	# touch control
+	if (target != Vector2.ZERO && velocity.length() == 0): 
 		var distance = (target - position)
 		if (distance.length() > 5):
 			velocity = (target - position).normalized()
@@ -29,17 +39,9 @@ func _process(delta):
 		else:
 			$AnimatedSprite.stop()
 			velocity = Vector2.ZERO
-			
-	else: # keyboard control
-		if Input.is_action_pressed("ui_right"):
-			velocity.x += 1
-		if Input.is_action_pressed("ui_left"):
-			velocity.x -= 1
-		if Input.is_action_pressed("ui_down"):
-			velocity.y += 1
-		if Input.is_action_pressed("ui_up"):
-			velocity.y -= 1
-		
+	else:
+		target = Vector2.ZERO
+
 	if velocity.length() > 0:
 		velocity = velocity.normalized() * speed
 		$AnimatedSprite.play()
@@ -55,15 +57,13 @@ func _process(delta):
 	if velocity.x != 0 and !isUpDownAngle:
 		$AnimatedSprite.animation = "walk"
 		$AnimatedSprite.flip_v = false
-		# See the note below about boolean assignment
 		$AnimatedSprite.flip_h = velocity.x < 0
 	elif velocity.y != 0 or isUpDownAngle:
 		$AnimatedSprite.animation = "down" if velocity.y > 0 else "up"
-		# $AnimatedSprite.flip_v = velocity.y > 0
 
 func _on_Player_body_entered(body):
 	if body.is_in_group("mobs"):
-		hide()  # Player disappears after being hit.
+		hide()
 		emit_signal("hit")
 		$CollisionShape2D.set_deferred("disabled", true)
 	elif body.is_in_group("gifts"):

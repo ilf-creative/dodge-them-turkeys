@@ -65,13 +65,13 @@ one_shot = true
 position = Vector2( 240, 450 )
 
 [node name="MobPath" type="Path2D" parent="."]
-position = Vector2( -208, -136 )
-scale = Vector2( 1.325, 1.15455 )
+position = Vector2( -0.518534, 7.81212 )
+scale = Vector2( 0.742245, 0.635874 )
 curve = SubResource( 1 )
 
 [node name="MobSpawnLocation" type="PathFollow2D" parent="MobPath"]
 position = Vector2( 0, -13.8583 )
-rotation = -4.88046e-07
+rotation = 2.44023e-07
 
 [node name="HUD" parent="." instance=ExtResource( 4 )]
 

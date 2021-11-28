@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://dodge_assets/fonts/Xolonium-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://HUD.gd" type="Script" id=2]
@@ -7,11 +7,69 @@
 size = 48
 font_data = ExtResource( 1 )
 
+[sub_resource type="StyleBoxFlat" id=8]
+bg_color = Color( 0.101961, 0.345098, 0.0823529, 1 )
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_size = 1
+shadow_offset = Vector2( 3, 3 )
+
+[sub_resource type="StyleBoxFlat" id=9]
+bg_color = Color( 0.0392157, 0.133333, 0.0313726, 1 )
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_size = 1
+shadow_offset = Vector2( 3, 3 )
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.223529, 0.439216, 0.717647, 1 )
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_size = 1
+shadow_offset = Vector2( 3, 3 )
+
 [sub_resource type="InputEventAction" id=2]
 action = "ui_select"
 
 [sub_resource type="ShortCut" id=3]
 shortcut = SubResource( 2 )
+
+[sub_resource type="DynamicFontData" id=5]
+font_path = "res://dodge_assets/fonts/Xolonium-Regular.ttf"
+
+[sub_resource type="DynamicFont" id=6]
+size = 18
+font_data = SubResource( 5 )
+
+[sub_resource type="StyleBoxFlat" id=10]
+bg_color = Color( 0.0980392, 0.0980392, 0.0980392, 1 )
+border_width_left = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0, 0, 0, 1 )
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id=11]
+bg_color = Color( 1, 0, 0, 1 )
+border_width_left = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0, 0, 0, 1 )
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 0.396078, 0.396078, 0.396078, 1 )
+border_width_left = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0, 0, 0, 1 )
+corner_radius_bottom_left = 5
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource( 2 )
@@ -56,12 +114,32 @@ margin_left = -125.5
 margin_top = -200.0
 margin_right = 125.5
 margin_bottom = -100.0
+rect_pivot_offset = Vector2( 153.5, 56 )
 custom_fonts/font = SubResource( 1 )
+custom_styles/hover = SubResource( 8 )
+custom_styles/pressed = SubResource( 9 )
+custom_styles/normal = SubResource( 4 )
 shortcut = SubResource( 3 )
 text = "START"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="CodeButton" type="Button" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -120.0
+margin_bottom = 30.0
+rect_pivot_offset = Vector2( 153.5, 56 )
+custom_fonts/font = SubResource( 6 )
+custom_styles/hover = SubResource( 10 )
+custom_styles/pressed = SubResource( 11 )
+custom_styles/normal = SubResource( 7 )
+text = "view code"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [connection signal="timeout" from="MessageTimer" to="." method="_on_MessageTimer_timeout"]
 [connection signal="pressed" from="StartButton" to="." method="_on_StartButton_pressed"]
+[connection signal="pressed" from="CodeButton" to="." method="_on_CodeButton_pressed"]

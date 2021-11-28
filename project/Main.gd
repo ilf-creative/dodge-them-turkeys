@@ -14,6 +14,14 @@ func _ready():
 	var viewport_w = screen_size.x
 	var viewport_h = screen_size.y
 	
+	var mob_buffer = 50
+	$MobPath.curve.clear_points()
+	$MobPath.curve.add_point(Vector2(-mob_buffer, -mob_buffer))
+	$MobPath.curve.add_point(Vector2(viewport_w + mob_buffer, -mob_buffer))
+	$MobPath.curve.add_point(Vector2(viewport_w + mob_buffer,viewport_h + mob_buffer))
+	$MobPath.curve.add_point(Vector2(-mob_buffer, viewport_h + mob_buffer))
+	$MobPath.curve.add_point(Vector2(-mob_buffer, -mob_buffer))
+	
 	var background_size = $Background.texture.get_size()
 	var scale_x = viewport_w / background_size.x
 	var scale_y = viewport_h / background_size.y
@@ -71,7 +79,7 @@ func game_over():
 func new_game():
 	score = 0
 	seconds_survived = 0
-	mob_spawn_count = 1
+	mob_spawn_count = 2 if screen_size.x > 800 else 1
 	$Player.start($StartPosition.position)
 	get_tree().call_group("mobs", "queue_free")
 	get_tree().call_group("gifts", "queue_free")	
@@ -84,19 +92,13 @@ func new_game():
 func _on_MobTimer_timeout():
 	mob_spawn_count += 0.1
 	for n in floor(mob_spawn_count):
-		# Choose a random location on Path2D.
 		$MobPath/MobSpawnLocation.offset = randi()
-		# Create a Mob instance and add it to the scene.
 		var mob = Mob.instance()
 		add_child(mob)
-		# Set the mob's direction perpendicular to the path direction.
 		var direction = $MobPath/MobSpawnLocation.rotation + PI / 2
-		# Set the mob's position to a random location.
 		mob.position = $MobPath/MobSpawnLocation.position
-		# Add some randomness to the direction.
 		direction += rand_range(-PI / 4, PI / 4)
 		mob.rotation = direction
-		# Set the velocity (speed & direction).
 		mob.linear_velocity = Vector2(rand_range(mob.min_speed, mob.max_speed), 0)
 		mob.linear_velocity = mob.linear_velocity.rotated(direction)
 
