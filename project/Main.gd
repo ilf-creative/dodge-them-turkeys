@@ -2,13 +2,49 @@ extends Node
 
 export (PackedScene) var Mob
 export (PackedScene) var Gift
-var score
+var score = 0 
 var screen_size: Vector2
 var mob_spawn_count = 1.0
 var seconds_survived = 0
 
 func _ready():
 	randomize()
+	_initViewport()
+	_playIntro()
+	
+func _game_over():
+	$ScoreTimer.stop()
+	$MobTimer.stop()
+	$GiftTimer.stop()
+	var second_survived_s = "" if seconds_survived == 1 else "s"
+	$HUD.show_game_over("You survived " + str(seconds_survived) + " second" + second_survived_s + ".")
+	$BackgroundMusic.stop()
+	$DeathAudio.play()
+	_reset_game_state()
+	
+	mob_spawn_count = 1
+	for n in 50:
+		_on_MobTimer_timeout()
+		yield(get_tree().create_timer(0.001), "timeout")
+
+func _new_game():
+	_reset_game_state()
+		
+	$Player.start($StartPosition.position)
+	$HUD.update_score(score)
+	$HUD.show_message("Get Ready")
+	$BackgroundMusic.play()
+	_on_GiftTimer_timeout()
+	$StartTimer.start()
+
+func _reset_game_state():
+	score = 0
+	seconds_survived = 0
+	mob_spawn_count = 2 if screen_size.x > 800 else 1
+	get_tree().call_group("mobs", "queue_free")
+	get_tree().call_group("gifts", "queue_free")
+
+func _initViewport():
 	screen_size = get_viewport().get_visible_rect().size
 	
 	var viewport_w = screen_size.x
@@ -36,10 +72,13 @@ func _ready():
 	$TurkeySanta.rect_position.x = (viewport_w - (800 * turkey_scale_x)) / 2
 	$TurkeySanta.show()
 	$HUD.hide()
-	
-	var turkey_offset = background_size.y
+
+func _playIntro():
+	var turkey_background_size = $TurkeySanta.texture.get_size()
+	var turkey_scale_y = screen_size.y / turkey_background_size.y
+	var turkey_offset = turkey_background_size.y
 	var turkey_stop = turkey_scale_y * 400
-	print("turkey_stopturkey_stop " + str(turkey_stop))
+
 	while(turkey_offset > turkey_stop):
 		yield(get_tree().create_timer(0.001), "timeout")
 		$TurkeySanta.rect_position.y = turkey_offset + 100
@@ -57,37 +96,10 @@ func _ready():
 	$TurkeySanta.hide()
 	$HUD.show()	
 
+########### event listeners ###############################################
+
 func _on_Player_hit():
-	game_over()
-
-func game_over():
-	$ScoreTimer.stop()
-	$MobTimer.stop()
-	$GiftTimer.stop()
-	var second_survived_s = "" if seconds_survived == 1 else "s"
-	$HUD.show_game_over("You survived " + str(seconds_survived) + " second" + second_survived_s + ".")
-	get_tree().call_group("mobs", "queue_free")
-	get_tree().call_group("gifts", "queue_free")
-	$BackgroundMusic.stop()
-	$DeathAudio.play()
-	
-	mob_spawn_count = 1
-	for n in 50:
-		_on_MobTimer_timeout()
-		yield(get_tree().create_timer(0.001), "timeout")
-
-func new_game():
-	score = 0
-	seconds_survived = 0
-	mob_spawn_count = 2 if screen_size.x > 800 else 1
-	$Player.start($StartPosition.position)
-	get_tree().call_group("mobs", "queue_free")
-	get_tree().call_group("gifts", "queue_free")	
-	$StartTimer.start()
-	$HUD.update_score(score)
-	$HUD.show_message("Get Ready")
-	$BackgroundMusic.play()
-	_on_GiftTimer_timeout()
+	_game_over()
 
 func _on_MobTimer_timeout():
 	mob_spawn_count += 0.1
@@ -111,8 +123,7 @@ func _on_StartTimer_timeout():
 	$ScoreTimer.start()
 
 func _on_HUD_start_game():
-	new_game()
-
+	_new_game()
 
 func _on_GiftTimer_timeout():
 	var gift = Gift.instance()
