@@ -1,6 +1,9 @@
 extends CanvasLayer
 signal start_game
 
+func _ready():
+	$VersionLabel.text = "1.1.2"
+
 func show():
 	$Message.show()
 	$StartButton.show()
@@ -29,6 +32,7 @@ func show_game_over(text):
 	yield(get_tree().create_timer(1), "timeout")
 	$StartButton.show()
 	$CodeButton.show()
+	$VersionLabel.show()
 
 func update_score(score):
 	var gift_s = "" if score == 1 else "s"
@@ -42,6 +46,7 @@ func _on_MessageTimer_timeout():
 func _on_StartButton_pressed():
 	$StartButton.hide()
 	$CodeButton.hide()
+	$VersionLabel.hide()
 	emit_signal("start_game")
 
 
