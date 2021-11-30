@@ -11,7 +11,7 @@ config_version=4
 [application]
 
 config/name="Dodge The Turkeys"
-run/main_scene="res://Main.tscn"
+run/main_scene="res://scenes/Main.tscn"
 boot_splash/image="res://dodge_assets/art/blank-splash.png"
 boot_splash/bg_color=Color( 1, 1, 1, 1 )
 config/icon="res://icon.png"

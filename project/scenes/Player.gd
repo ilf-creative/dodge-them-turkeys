@@ -12,12 +12,13 @@ func start(pos):
 	show()
 	$CollisionShape2D.disabled = false
 	target = Vector2.ZERO
+	oldTarget = Vector2.ZERO
 
 func _ready():
 	screen_size = get_viewport_rect().size
 	hide()
 
-func _process(delta):	
+func _process(delta):
 	var velocity = Vector2() 
 	
 	# keyboard control
@@ -33,12 +34,14 @@ func _process(delta):
 	# touch control
 	if (target != Vector2.ZERO && velocity.length() == 0): 
 		var distance = (target - position)
-		if (distance.length() > 5):
+		if (distance.length() > 20):
 			velocity = (target - position).normalized()
 			$AnimatedSprite.play()
 		else:
 			$AnimatedSprite.stop()
 			velocity = Vector2.ZERO
+			position = target
+			target = Vector2.ZERO
 	else:
 		target = Vector2.ZERO
 
