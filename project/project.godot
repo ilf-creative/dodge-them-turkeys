@@ -8,6 +8,28 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Reference",
+"class": "HudGameState",
+"language": "GDScript",
+"path": "res://types/hud_game_state_enum.gd"
+}, {
+"base": "Reference",
+"class": "Settings",
+"language": "GDScript",
+"path": "res://scenes/Settings.gd"
+}, {
+"base": "Reference",
+"class": "SettingsState",
+"language": "GDScript",
+"path": "res://scenes/SettingsState.gd"
+} ]
+_global_script_class_icons={
+"HudGameState": "",
+"Settings": "",
+"SettingsState": ""
+}
+
 [application]
 
 config/name="Dodge The Turkeys"

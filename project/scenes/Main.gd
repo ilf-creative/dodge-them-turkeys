@@ -17,24 +17,34 @@ func _game_over():
 	$MobTimer.stop()
 	$GiftTimer.stop()
 	var second_survived_s = "" if seconds_survived == 1 else "s"
-	$HUD.show_game_over("You survived " + str(seconds_survived) + " second" + second_survived_s + ".")
+	var gift_s = "" if score == 1 else "s"
+	$HUD.show_game_over("You survived " + str(seconds_survived) + " second" + second_survived_s + ", and saved " + str(score) + " gift" + gift_s + ".")
 	$BackgroundMusic.stop()
 	$DeathAudio.play()
+	_update_high_scores()
 	_reset_game_state()
 	
 	mob_spawn_count = 1
 	for n in 50:
 		_on_MobTimer_timeout()
 		yield(get_tree().create_timer(0.001), "timeout")
+	
+func _update_high_scores():
+	var settings = Settings.load_settings()
+	settings.most_gifts = max(settings.most_gifts, score)
+	settings.longest_survival = max(settings.longest_survival, seconds_survived)
+	settings.save_file()
+	$HUD.show_high_scores(settings.most_gifts, settings.longest_survival)
+
 
 func _new_game():
 	_reset_game_state()
 		
 	$Player.start($StartPosition.position)
-	$HUD.update_score(score)
+	$HUD.update_score(score, seconds_survived)
 	$HUD.show_message("Get Ready")
 	$BackgroundMusic.play()
-	_on_GiftTimer_timeout()
+	$HUD.setGameState(HudGameState.PLAYING)
 	$StartTimer.start()
 
 func _reset_game_state():
@@ -64,27 +74,10 @@ func _initViewport():
 
 	$Background.set_scale(Vector2(scale_x, scale_y))
 	$Background.hide()
-	
-	var turkey_background_size = $TurkeySanta.texture.get_size()
-	var turkey_scale_x = min(500, viewport_w) / turkey_background_size.x
-	var turkey_scale_y = viewport_h / turkey_background_size.y
-	$TurkeySanta.set_scale(Vector2(turkey_scale_x, turkey_scale_y))
-	$TurkeySanta.rect_position.x = (viewport_w - (800 * turkey_scale_x)) / 2
-	$TurkeySanta.show()
-	$HUD.hide()
+	$HUD.setGameState(HudGameState.SPLASH)
 
 func _playIntro():
-	var turkey_background_size = $TurkeySanta.texture.get_size()
-	var turkey_scale_y = screen_size.y / turkey_background_size.y
-	var turkey_offset = turkey_background_size.y
-	var turkey_stop = turkey_scale_y * 400
-
-	while(turkey_offset > turkey_stop):
-		yield(get_tree().create_timer(0.001), "timeout")
-		$TurkeySanta.rect_position.y = turkey_offset + 100
-		turkey_offset -= 20
-
-	yield(get_tree().create_timer(3), "timeout")
+	yield(get_tree().create_timer(2), "timeout")
 	
 	$Background.show()
 	$Background.set_modulate(Color(1,1,1,0))
@@ -93,8 +86,7 @@ func _playIntro():
 		$Background.set_modulate(lerp($Background.get_modulate(), Color(1,1,1,1), 0.2))
 		yield(get_tree().create_timer(0.001), "timeout")
 
-	$TurkeySanta.hide()
-	$HUD.show()	
+	$HUD.setGameState(HudGameState.START)
 
 ########### event listeners ###############################################
 
@@ -116,6 +108,7 @@ func _on_MobTimer_timeout():
 
 func _on_ScoreTimer_timeout():
 	seconds_survived += 1
+	$HUD.update_score(score, seconds_survived)
 
 func _on_StartTimer_timeout():
 	$MobTimer.start()
@@ -132,7 +125,7 @@ func _on_GiftTimer_timeout():
 	
 func _on_Player_gifted():
 	score += 1
-	$HUD.update_score(score)
+	$HUD.update_score(score, seconds_survived)
 	$GiftAudio.stop()
 	$GiftAudio.play()
 	
