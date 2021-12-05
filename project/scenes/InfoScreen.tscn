@@ -202,7 +202,56 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="LoadingIndicator" type="Control" parent="Control"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -240.0
+margin_top = -200.0
+margin_right = 240.0
+margin_bottom = 200.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="Control/LoadingIndicator"]
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_top = -247.0
+margin_bottom = 240.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color( 0, 0, 0, 0.52549 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LoaderLabel" type="Label" parent="Control/LoadingIndicator"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -240.0
+margin_top = -67.5
+margin_right = 240.0
+margin_bottom = 67.5
+rect_rotation = 45.0
+rect_pivot_offset = Vector2( 240, 67.5 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = SubResource( 6 )
+text = "LOADING"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InAppPurchaseCheckTimer" type="Timer" parent="."]
+
 [connection signal="pressed" from="Control/Exit" to="." method="_on_Exit_pressed"]
 [connection signal="pressed" from="Control/InfoButton2" to="." method="_on_InfoButton2_pressed"]
 [connection signal="pressed" from="Control/Buy1" to="." method="_on_Buy1_pressed"]
 [connection signal="pressed" from="Control/Buy2" to="." method="_on_Buy2_pressed"]
+[connection signal="timeout" from="InAppPurchaseCheckTimer" to="." method="_on_InAppPurchaseCheckTimer_timeout"]
