@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://dodge_assets/art/santa-down-1.png" type="Texture" id=1]
 [ext_resource path="res://dodge_assets/art/santa-right-2.png" type="Texture" id=2]
@@ -7,12 +7,76 @@
 [ext_resource path="res://dodge_assets/art/santa-up-1.png" type="Texture" id=5]
 [ext_resource path="res://dodge_assets/art/santa-right-1.png" type="Texture" id=6]
 [ext_resource path="res://dodge_assets/art/santa-down-2.png" type="Texture" id=7]
+[ext_resource path="res://dodge_assets/art/santa-right-3h-1.png" type="Texture" id=8]
+[ext_resource path="res://dodge_assets/art/santa-right-3h-2.png" type="Texture" id=9]
+[ext_resource path="res://dodge_assets/art/santa-up-3h-2.png" type="Texture" id=10]
+[ext_resource path="res://dodge_assets/art/santa-right-1h-2.png" type="Texture" id=11]
+[ext_resource path="res://dodge_assets/art/santa-right-0h-2.png" type="Texture" id=12]
+[ext_resource path="res://dodge_assets/art/santa-right-1h-1.png" type="Texture" id=13]
+[ext_resource path="res://dodge_assets/art/santa-up-1h-1.png" type="Texture" id=14]
+[ext_resource path="res://dodge_assets/art/santa-up-1h-2.png" type="Texture" id=15]
+[ext_resource path="res://dodge_assets/art/santa-up-2h-1.png" type="Texture" id=16]
+[ext_resource path="res://dodge_assets/art/santa-up-2h-2.png" type="Texture" id=17]
+[ext_resource path="res://dodge_assets/art/santa-down-3h-1.png" type="Texture" id=18]
+[ext_resource path="res://dodge_assets/art/santa-down-3h-2.png" type="Texture" id=19]
+[ext_resource path="res://dodge_assets/art/santa-down-0h-1.png" type="Texture" id=20]
+[ext_resource path="res://dodge_assets/art/santa-up-3h-1.png" type="Texture" id=21]
+[ext_resource path="res://dodge_assets/art/santa-down-1h-2.png" type="Texture" id=22]
+[ext_resource path="res://dodge_assets/art/santa-down-1h-1.png" type="Texture" id=23]
+[ext_resource path="res://dodge_assets/art/santa-down-0h-2.png" type="Texture" id=24]
+[ext_resource path="res://dodge_assets/art/santa-right-2h-1.png" type="Texture" id=25]
+[ext_resource path="res://dodge_assets/art/santa-right-2h-2.png" type="Texture" id=26]
+[ext_resource path="res://dodge_assets/art/santa-right-0h-1.png" type="Texture" id=27]
+[ext_resource path="res://dodge_assets/art/santa-down-2h-1.png" type="Texture" id=28]
+[ext_resource path="res://dodge_assets/art/santa-down-2h-2.png" type="Texture" id=29]
+[ext_resource path="res://dodge_assets/art/santa-up-0h-1.png" type="Texture" id=30]
+[ext_resource path="res://dodge_assets/art/santa-up-0h-2.png" type="Texture" id=31]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
+"frames": [ ExtResource( 6 ), ExtResource( 2 ) ],
+"loop": true,
+"name": "right",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 23 ), ExtResource( 22 ) ],
+"loop": true,
+"name": "1h_down",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 16 ), ExtResource( 17 ) ],
+"loop": true,
+"name": "2h_up",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 14 ), ExtResource( 15 ) ],
+"loop": true,
+"name": "1h_up",
+"speed": 5.0
+}, {
 "frames": [ ExtResource( 5 ), ExtResource( 4 ) ],
 "loop": true,
 "name": "up",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 25 ), ExtResource( 26 ) ],
+"loop": true,
+"name": "2h_right",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 13 ), ExtResource( 11 ) ],
+"loop": true,
+"name": "1h_right",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 30 ), ExtResource( 31 ) ],
+"loop": true,
+"name": "0h_up",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 18 ), ExtResource( 19 ) ],
+"loop": true,
+"name": "3h_down",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 1 ), ExtResource( 7 ) ],
@@ -20,9 +84,29 @@ animations = [ {
 "name": "down",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 6 ), ExtResource( 2 ) ],
+"frames": [ ExtResource( 27 ), ExtResource( 12 ) ],
 "loop": true,
-"name": "walk",
+"name": "0h_right",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 8 ), ExtResource( 9 ) ],
+"loop": true,
+"name": "3h_right",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 21 ), ExtResource( 10 ) ],
+"loop": true,
+"name": "3h_up",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 20 ), ExtResource( 24 ) ],
+"loop": true,
+"name": "0h_down",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 28 ), ExtResource( 29 ) ],
+"loop": true,
+"name": "2h_down",
 "speed": 5.0
 } ]
 
@@ -39,7 +123,7 @@ __meta__ = {
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 scale = Vector2( 0.2, 0.2 )
 frames = SubResource( 1 )
-animation = "down"
+animation = "3h_right"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 2 )

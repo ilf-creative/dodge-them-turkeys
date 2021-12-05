@@ -4,9 +4,10 @@ signal start_game
 var screen_size
 var score_rect_start_height
 var target_score_rect_height
+var new_record = false
 
 func _ready():
-	$VersionLabel.text = "1.1.4"
+	$VersionLabel.text = "1.2.0"
 	screen_size = get_viewport().get_visible_rect().size
 	score_rect_start_height = $ScoreRect.rect_size.y
 	_set_score_rect_fullscreen(true)
@@ -26,6 +27,7 @@ func _process(delta):
 		target_score_rect_height = null
 
 func setGameState(state):
+	$InfoScreen.get_child(0).hide()
 	$StartButton.hide()
 	$InfoButton.hide()
 	$ScoreLabel.hide()
@@ -33,26 +35,40 @@ func setGameState(state):
 	$VersionLabel.hide()
 	$Logo.hide()
 	$RecordsLabel.hide()
+	$BlackTitleRect.hide()
+	$NewRecord.hide()
 	
 	if state == HudGameState.START:
 		$StartButton.show()
 		$VersionLabel.show()
+		$InfoButton.show()
+		$InfoButton.margin_top = 40
+		$InfoButton.margin_bottom = 41
 		$Logo.show()
+		$Message.hide()
 		$StartButton.text = " START "
 	elif state == HudGameState.PLAYING:
-		print("hide it!!")
 		$ScoreLabel.show()
 		$TimerLabel.show()
+		$BlackTitleRect.show()
 		_set_score_rect_fullscreen(false)
 	elif state == HudGameState.END:
 		$StartButton.show()
 		$InfoButton.show()
 		$ScoreLabel.show()
+		$InfoButton.margin_top = 100
+		$InfoButton.margin_bottom = 141
 		$TimerLabel.show()
 		$VersionLabel.show()
 		$RecordsLabel.show()
+		$BlackTitleRect.show()
+		if new_record:
+			$NewRecord.show()
 		$StartButton.text = " TRY AGAIN "
 		_set_score_rect_fullscreen(true)
+	elif state == HudGameState.INFO:
+		$InfoScreen.get_child(0).show()
+		$Message.hide()
 	elif state == HudGameState.SPLASH:
 		$Logo.show()
 
@@ -78,18 +94,22 @@ func update_score(score, time):
 	var timer_s = "" if time == 1 else "s"
 	$TimerLabel.text = str(time) + " second" + timer_s
 
-func show_high_scores(score, time):
+func show_high_scores(score, time, record = false):
 	$RecordsLabel.text = "Most gifts saved: " + str(score) + "\nLongest time survived: " + str(time) + "s"
+	new_record = record
 
 func _on_MessageTimer_timeout():
 	$Message.hide()
-
 
 func _on_StartButton_pressed():
 	emit_signal("start_game")
 
 func _on_CodeButton_pressed():
-	OS.shell_open("https://github.com/ilf-creative/dodge-them-turkeys")
+	setGameState(HudGameState.INFO)
 
 func _set_score_rect_fullscreen(fullscreen):
 	target_score_rect_height = screen_size.y if fullscreen else score_rect_start_height
+
+
+func _on_InfoScreen_exit():
+	setGameState(HudGameState.START)

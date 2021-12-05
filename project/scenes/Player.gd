@@ -2,17 +2,24 @@ extends Area2D
 signal hit
 signal gifted
 
+const SCREEN_BUFFER_TOP = 60
+
 export var speed = 400
+export var hats = 1
+
 var screen_size
 var target = Vector2.ZERO
 var oldTarget = Vector2.ZERO
 
-func start(pos):
+
+func start(pos, start_hats = 1):
 	position = pos
-	show()
+	hats = start_hats
+	$AnimatedSprite.animation = _get_hat_name("down")
 	$CollisionShape2D.disabled = false
 	target = Vector2.ZERO
 	oldTarget = Vector2.ZERO
+	show()
 
 func _ready():
 	screen_size = get_viewport_rect().size
@@ -53,22 +60,35 @@ func _process(delta):
 		
 	position += velocity * delta
 	position.x = clamp(position.x, 0, screen_size.x)
-	position.y = clamp(position.y, 0, screen_size.y)
+	position.y = clamp(position.y, SCREEN_BUFFER_TOP, screen_size.y)
 	var angle = abs(rad2deg(velocity.angle()))
 	var isUpDownAngle = angle > 60 and angle < 120
 
 	if velocity.x != 0 and !isUpDownAngle:
-		$AnimatedSprite.animation = "walk"
+		$AnimatedSprite.animation = _get_hat_name("right")
 		$AnimatedSprite.flip_v = false
 		$AnimatedSprite.flip_h = velocity.x < 0
 	elif velocity.y != 0 or isUpDownAngle:
-		$AnimatedSprite.animation = "down" if velocity.y > 0 else "up"
+		$AnimatedSprite.animation = _get_hat_name("down") if velocity.y > 0 else _get_hat_name("up")
 
+func _get_hat_name(direction):
+	var hat_prefix = str(clamp(hats, 0, 3)) + "h_"
+	return hat_prefix + direction
+	
 func _on_Player_body_entered(body):
 	if body.is_in_group("mobs"):
-		hide()
-		emit_signal("hit")
-		$CollisionShape2D.set_deferred("disabled", true)
+		if body.has_hat:
+			hats += 1
+			body.has_hat = false
+		elif hats < 1:
+			hide()
+			emit_signal("hit")
+			$CollisionShape2D.set_deferred("disabled", true)
+		else:
+			hats -= 1
+			body.take_hat()
+			$AnimatedSprite.animation = _get_hat_name($AnimatedSprite.animation.split('_')[1])
+			
 	elif body.is_in_group("gifts"):
 		emit_signal("gifted")
 		body.queue_free()
