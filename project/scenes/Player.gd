@@ -80,6 +80,7 @@ func _on_Player_body_entered(body):
 		if body.has_hat:
 			hats += 1
 			body.has_hat = false
+			$AnimatedSprite.animation = _get_hat_name($AnimatedSprite.animation.split('_')[1])
 		elif hats < 1:
 			hide()
 			emit_signal("hit")
