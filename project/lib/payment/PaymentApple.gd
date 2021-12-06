@@ -13,7 +13,7 @@ func _init(products, pay_success: FuncRef, pay_error: FuncRef):
 	
 	if Engine.has_singleton("InAppStore"):
 		in_app_store = Engine.get_singleton("InAppStore")
-		var result = in_app_store.request_product_info({ "product_ids": products })
+		in_app_store.request_product_info({ "product_ids": products })
 		in_app_store.restore_purchases()
 		can_pay = true
 	else:
@@ -26,7 +26,6 @@ func purchase(pid):
 	return result == OK
 
 func check_state():
-	print("check events...")
 	if !in_app_store:
 		return
 
