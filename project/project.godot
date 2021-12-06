@@ -15,17 +15,35 @@ _global_script_classes=[ {
 "path": "res://types/hud_game_state_enum.gd"
 }, {
 "base": "Reference",
+"class": "Payment",
+"language": "GDScript",
+"path": "res://lib/payment/Payment.gd"
+}, {
+"base": "Reference",
+"class": "PaymentApple",
+"language": "GDScript",
+"path": "res://lib/payment/PaymentApple.gd"
+}, {
+"base": "Reference",
+"class": "PaymentGoogle",
+"language": "GDScript",
+"path": "res://lib/payment/PaymentGoogle.gd"
+}, {
+"base": "Reference",
 "class": "Settings",
 "language": "GDScript",
-"path": "res://scenes/Settings.gd"
+"path": "res://lib/settings/Settings.gd"
 }, {
 "base": "Reference",
 "class": "SettingsState",
 "language": "GDScript",
-"path": "res://scenes/SettingsState.gd"
+"path": "res://lib/settings/SettingsState.gd"
 } ]
 _global_script_class_icons={
 "HudGameState": "",
+"Payment": "",
+"PaymentApple": "",
+"PaymentGoogle": "",
 "Settings": "",
 "SettingsState": ""
 }
