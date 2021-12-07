@@ -7,7 +7,7 @@ var target_score_rect_height
 var new_record = false
 
 func _ready():
-	$VersionLabel.text = "1.3.2"
+	$VersionLabel.text = "1.3.3"
 	screen_size = get_viewport().get_visible_rect().size
 	score_rect_start_height = $ScoreRect.rect_size.y
 	_set_score_rect_fullscreen(true)

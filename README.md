@@ -14,6 +14,12 @@ All you need to build this game locally is the [Godot Engine](https://godotengin
 
 If you just want to poke around in the code take a look at the `.gd` files. They are [GDScript](https://docs.godotengine.org/en/stable/getting_started/scripting/gdscript/gdscript_basics.html) files which is basically weird python.
 
+### Directories
+
+* **docs/** - web build folder (required by GitHub Pages)
+* **project/** - godot project root
+* **build/** (gitignored) - build target for ios/android
+
 ## Credits!!
 
 ### Code
