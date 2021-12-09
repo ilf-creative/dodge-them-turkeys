@@ -32,7 +32,9 @@ All code written by Lenny Urbanowski (or copied from the above tutorial) and rel
 
 ### Art
 
-All art except the snow back drop created by Lenny Urbanowski. Artwork work is licensed under a [Creative Commons Attribution 3.0 United States License](http://creativecommons.org/licenses/by/3.0/us/)
+All art except the snow background created by Lenny Urbanowski. Artwork work is licensed under a [Creative Commons Attribution 3.0 United States License](http://creativecommons.org/licenses/by/3.0/us/)
+
+Snow field background is a photo by [Ant Rozetsky](https://unsplash.com/photos/H9m6mfeeakU) and is licensed under the [unsplash license](https://unsplash.com/license).
 
 ### Sound
 

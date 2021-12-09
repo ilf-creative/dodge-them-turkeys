@@ -26,7 +26,7 @@ func _process(delta):
 		$ScoreRect.rect_size.y = target_score_rect_height
 		target_score_rect_height = null
 
-func setGameState(state):
+func set_game_state(state):
 	$InfoScreen.get_child(0).hide()
 	$StartButton.hide()
 	$InfoButton.hide()
@@ -86,17 +86,20 @@ func show_game_over(text):
 	$Message.show()
 
 	yield(get_tree().create_timer(1), "timeout")
-	setGameState(HudGameState.END)
+	set_game_state(HudGameState.END)
 
 func update_score(score, time):
-	var gift_s = "" if score == 1 else "s"
-	$ScoreLabel.text = str(score) + " gift" + gift_s
-	var timer_s = "" if time == 1 else "s"
-	$TimerLabel.text = str(time) + " second" + timer_s
+	$ScoreLabel.text = Utils.s_plural("gift", score)
+	$TimerLabel.text = Utils.s_plural("second", time)
 
 func show_high_scores(score, time, record = false):
 	$RecordsLabel.text = "Most gifts saved: " + str(score) + "\nLongest time survived: " + str(time) + "s"
 	new_record = record
+
+func _set_score_rect_fullscreen(fullscreen):
+	target_score_rect_height = screen_size.y if fullscreen else score_rect_start_height
+
+########### event listeners ###############################################
 
 func _on_MessageTimer_timeout():
 	$Message.hide()
@@ -105,11 +108,7 @@ func _on_StartButton_pressed():
 	emit_signal("start_game")
 
 func _on_CodeButton_pressed():
-	setGameState(HudGameState.INFO)
-
-func _set_score_rect_fullscreen(fullscreen):
-	target_score_rect_height = screen_size.y if fullscreen else score_rect_start_height
-
+	set_game_state(HudGameState.INFO)
 
 func _on_InfoScreen_exit():
-	setGameState(HudGameState.START)
+	set_game_state(HudGameState.START)

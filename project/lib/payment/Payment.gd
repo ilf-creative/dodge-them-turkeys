@@ -4,7 +4,7 @@ var apple
 var google
 var can_pay = false
 
-func _init(products, pay_success: FuncRef, pay_error: FuncRef):
+func _init(products: Array, pay_success: FuncRef, pay_error: FuncRef):
 	apple = PaymentApple.new(products, pay_success, pay_error)
 	google = PaymentGoogle.new(products, pay_success, pay_error)
 	can_pay = apple.can_pay or google.can_pay
@@ -14,7 +14,7 @@ func check_state():
 	if apple.can_pay:
 		apple.check_state()
 
-func purchase(pid):
+func purchase(pid: String):
 	if apple.can_pay:
 		return apple.purchase(pid)
 

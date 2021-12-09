@@ -7,7 +7,7 @@ const GIFT_SCREEN_BUFFER_TOP = 100
 const GIFT_SCREEN_BUFFER = 40
 const BACKGROUND_RESET_TIMEOUT = 30
 
-var score = 0 
+var score = 0
 var screen_size: Vector2
 var mob_spawn_count = 1.0
 var seconds_survived = 0
@@ -17,16 +17,14 @@ var background_time = 0
 
 func _ready():
 	randomize()
-	_initViewport()
-	_playIntro()
+	_init_viewport()
+	_play_intro()
 	
 func _game_over():
 	$ScoreTimer.stop()
 	$MobTimer.stop()
 	$GiftTimer.stop()
-	var second_survived_s = "" if seconds_survived == 1 else "s"
-	var gift_s = "" if score == 1 else "s"
-	$HUD.show_game_over("You survived " + str(seconds_survived) + " second" + second_survived_s + ", and saved " + str(score) + " gift" + gift_s + ".")
+	$HUD.show_game_over("You survived " + Utils.s_plural("second", seconds_survived) + ", and saved " + Utils.s_plural("gift", score) + ".")
 	$BackgroundMusic.stop()
 	$DeathAudio.play()
 	_update_high_scores()
@@ -53,7 +51,7 @@ func _new_game():
 	$HUD.update_score(score, seconds_survived)
 	$HUD.show_message("Get Ready")
 	$BackgroundMusic.play()
-	$HUD.setGameState(HudGameState.PLAYING)
+	$HUD.set_game_state(HudGameState.PLAYING)
 	$StartTimer.start()
 	game_running = true
 
@@ -67,7 +65,7 @@ func _reset_game_state():
 	var settings = Settings.load_settings()
 	starting_hats = settings.bonus_hats + 1
 
-func _initViewport():
+func _init_viewport():
 	screen_size = get_viewport().get_visible_rect().size
 	
 	var viewport_w = screen_size.x
@@ -87,9 +85,9 @@ func _initViewport():
 
 	$Background.set_scale(Vector2(scale_x, scale_y))
 	$Background.hide()
-	$HUD.setGameState(HudGameState.SPLASH)
+	$HUD.set_game_state(HudGameState.SPLASH)
 
-func _playIntro():
+func _play_intro():
 	yield(get_tree().create_timer(2), "timeout")
 	
 	$Background.show()
@@ -99,7 +97,7 @@ func _playIntro():
 		$Background.set_modulate(lerp($Background.get_modulate(), Color(1,1,1,1), 0.2))
 		yield(get_tree().create_timer(0.001), "timeout")
 
-	$HUD.setGameState(HudGameState.START)
+	$HUD.set_game_state(HudGameState.START)
 
 ########### event listeners ###############################################
 
@@ -185,4 +183,4 @@ func _notification(what):
 		MainLoop.NOTIFICATION_WM_FOCUS_IN:
 			var now = OS.get_unix_time()
 			if !game_running and now - background_time > BACKGROUND_RESET_TIMEOUT:
-				$HUD.setGameState(HudGameState.START)
+				$HUD.set_game_state(HudGameState.START)

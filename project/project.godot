@@ -12,7 +12,7 @@ _global_script_classes=[ {
 "base": "Reference",
 "class": "HudGameState",
 "language": "GDScript",
-"path": "res://types/hud_game_state_enum.gd"
+"path": "res://types/HudGameStateEnum.gd"
 }, {
 "base": "Reference",
 "class": "Payment",
@@ -38,6 +38,11 @@ _global_script_classes=[ {
 "class": "SettingsState",
 "language": "GDScript",
 "path": "res://lib/settings/SettingsState.gd"
+}, {
+"base": "Reference",
+"class": "Utils",
+"language": "GDScript",
+"path": "res://lib/utils/Utils.gd"
 } ]
 _global_script_class_icons={
 "HudGameState": "",
@@ -45,7 +50,8 @@ _global_script_class_icons={
 "PaymentApple": "",
 "PaymentGoogle": "",
 "Settings": "",
-"SettingsState": ""
+"SettingsState": "",
+"Utils": ""
 }
 
 [application]

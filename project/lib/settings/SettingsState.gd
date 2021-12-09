@@ -9,9 +9,9 @@ func load_file():
 	var f = File.new()
 	if f.file_exists(_settings_file):
 		f.open(_settings_file, File.READ)
-		most_gifts = _null_default(f.get_var(), 0)
-		longest_survival = _null_default(f.get_var(), 0)
-		bonus_hats = _null_default(f.get_var(), 0)
+		most_gifts = Utils.or_default(f.get_var(), 0)
+		longest_survival = Utils.or_default(f.get_var(), 0)
+		bonus_hats = Utils.or_default(f.get_var(), 0)
 		# self.enable_ads = f.get_var()
 		f.close()
 	return self
@@ -24,6 +24,4 @@ func save_file():
 	f.store_var(bonus_hats)
 	# f.store_var(enable_ads)
 	f.close()
-	
-func _null_default(val, default):
-	return val if val else default
+
