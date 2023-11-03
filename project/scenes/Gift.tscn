@@ -1,37 +1,41 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=6 format=3 uid="uid://cc0etl1eodgjk"]
 
-[ext_resource path="res://scenes/Gift.gd" type="Script" id=1]
-[ext_resource path="res://dodge_assets/art/gift1.png" type="Texture" id=2]
-[ext_resource path="res://dodge_assets/art/gift2.png" type="Texture" id=3]
+[ext_resource type="Script" path="res://scenes/Gift.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://d2vx2jmjhwk8u" path="res://dodge_assets/art/gift1.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://bnb5vx1oi3g0t" path="res://dodge_assets/art/gift2.png" id="3"]
 
-[sub_resource type="CapsuleShape2D" id=1]
-radius = 17.0
-height = 0.0
-
-[sub_resource type="SpriteFrames" id=2]
-animations = [ {
-"frames": [ ExtResource( 3 ) ],
+[sub_resource type="SpriteFrames" id="2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3")
+}],
 "loop": true,
-"name": "dos",
+"name": &"dos",
 "speed": 3.0
 }, {
-"frames": [ ExtResource( 2 ) ],
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2")
+}],
 "loop": true,
-"name": "uno",
+"name": &"uno",
 "speed": 5.0
-} ]
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xbau6"]
 
 [node name="Gift" type="RigidBody2D" groups=["gifts"]]
 mass = 0.306122
 gravity_scale = 0.0
-script = ExtResource( 1 )
+script = ExtResource("1")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.15, 0.15)
+sprite_frames = SubResource("2")
+animation = &"dos"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-rotation = 1.5708
-shape = SubResource( 1 )
-
-[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-scale = Vector2( 0.15, 0.15 )
-frames = SubResource( 2 )
-animation = "dos"
-playing = true
+scale = Vector2(2, 1.25)
+shape = SubResource("CapsuleShape2D_xbau6")
+debug_color = Color(0, 0.6, 0.701961, 0.588235)

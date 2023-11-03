@@ -1,43 +1,38 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=11 format=3 uid="uid://c8d5gugfjy5xu"]
 
-[ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=1]
-[ext_resource path="res://scenes/Main.gd" type="Script" id=2]
-[ext_resource path="res://scenes/Mob.tscn" type="PackedScene" id=3]
-[ext_resource path="res://scenes/HUD.tscn" type="PackedScene" id=4]
-[ext_resource path="res://scenes/Gift.tscn" type="PackedScene" id=5]
-[ext_resource path="res://dodge_assets/art/snow-bg-1.png" type="Texture" id=6]
-[ext_resource path="res://dodge_assets/audio/turkeys-win.mp3" type="AudioStream" id=7]
-[ext_resource path="res://dodge_assets/audio/dodge-turkey-bells.mp3" type="AudioStream" id=8]
-[ext_resource path="res://dodge_assets/audio/santa-ho-ho-ho.mp3" type="AudioStream" id=9]
+[ext_resource type="PackedScene" uid="uid://bgb2hdfmo0doh" path="res://scenes/Player.tscn" id="1"]
+[ext_resource type="Script" path="res://scenes/Main.gd" id="2"]
+[ext_resource type="PackedScene" uid="uid://bhh6khoptqphh" path="res://scenes/Mob.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://ddh24lrgpicqh" path="res://scenes/HUD.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://cc0etl1eodgjk" path="res://scenes/Gift.tscn" id="5"]
+[ext_resource type="Texture2D" uid="uid://6r4pnfafckay" path="res://dodge_assets/art/snow-bg-1.png" id="6"]
+[ext_resource type="AudioStream" uid="uid://b75qmkcuvhouy" path="res://dodge_assets/audio/turkeys-win.mp3" id="7"]
+[ext_resource type="AudioStream" uid="uid://557tpq16xrbd" path="res://dodge_assets/audio/dodge-turkey-bells.mp3" id="8"]
+[ext_resource type="AudioStream" uid="uid://g8euodinrw1c" path="res://dodge_assets/audio/santa-ho-ho-ho.mp3" id="9"]
 
-[sub_resource type="Curve2D" id=1]
+[sub_resource type="Curve2D" id="1"]
 _data = {
-"points": PoolVector2Array( 0, 0, 0, 0, 0, -13.8583, 0, 0, 0, 0, 640, -13.8583, 0, 0, 0, 0, 646.038, 1129.45, 0, 0, 0, 0, -6.03773, 1129.45, 0, 0, 0, 0, 0, -6.92913 )
+"points": PackedVector2Array(0, 0, 0, 0, 0, -13.8583, 0, 0, 0, 0, 640, -13.8583, 0, 0, 0, 0, 646.038, 1129.45, 0, 0, 0, 0, -6.03773, 1129.45, 0, 0, 0, 0, 0, -6.92913)
 }
+point_count = 5
 
 [node name="Main" type="Node"]
-script = ExtResource( 2 )
-Mob = ExtResource( 3 )
-Gift = ExtResource( 5 )
+script = ExtResource("2")
+Mob = ExtResource("3")
+Gift = ExtResource("5")
 
 [node name="ColorRect" type="ColorRect" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
-rect_scale = Vector2( 50, 50 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(50, 50)
 
 [node name="Background" type="TextureRect" parent="."]
-margin_right = 1152.0
-margin_bottom = 1272.0
-texture = ExtResource( 6 )
-expand = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+offset_right = 1152.0
+offset_bottom = 1272.0
+texture = ExtResource("6")
+expand_mode = 1
 
-[node name="Player" parent="." instance=ExtResource( 1 )]
+[node name="Player" parent="." instance=ExtResource("1")]
 
 [node name="GiftTimer" type="Timer" parent="."]
 wait_time = 2.0
@@ -50,28 +45,27 @@ wait_time = 2.0
 wait_time = 2.0
 one_shot = true
 
-[node name="StartPosition" type="Position2D" parent="."]
-position = Vector2( 240, 541 )
+[node name="StartPosition" type="Marker2D" parent="."]
+position = Vector2(240, 541)
 
 [node name="MobPath" type="Path2D" parent="."]
-position = Vector2( -0.518534, 7.81212 )
-scale = Vector2( 0.742245, 0.635874 )
-curve = SubResource( 1 )
+position = Vector2(-0.518534, 7.81212)
+scale = Vector2(0.742245, 0.635874)
+curve = SubResource("1")
 
 [node name="MobSpawnLocation" type="PathFollow2D" parent="MobPath"]
-position = Vector2( 0, -13.8583 )
-rotation = 2.44023e-07
+position = Vector2(0, -13.8583)
 
-[node name="HUD" parent="." instance=ExtResource( 4 )]
+[node name="HUD" parent="." instance=ExtResource("4")]
 
 [node name="GiftAudio" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 9 )
+stream = ExtResource("9")
 
 [node name="DeathAudio" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 7 )
+stream = ExtResource("7")
 
 [node name="BackgroundMusic" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 8 )
+stream = ExtResource("8")
 volume_db = -13.11
 
 [connection signal="gifted" from="Player" to="." method="_on_Player_gifted"]

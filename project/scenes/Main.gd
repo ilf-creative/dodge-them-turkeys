@@ -1,7 +1,7 @@
 extends Node
 
-export (PackedScene) var Mob
-export (PackedScene) var Gift
+@export var Mob:PackedScene
+@export var Gift:PackedScene
 
 const GIFT_SCREEN_BUFFER_TOP = 100
 const GIFT_SCREEN_BUFFER = 40
@@ -29,11 +29,13 @@ func _game_over():
 	$DeathAudio.play()
 	_update_high_scores()
 	_reset_game_state()
+	# deferred to avoid error: godot Can't change this state while flushing queries
+	call_deferred("_show_end_turkeys")
 	
-	mob_spawn_count = 1
+func _show_end_turkeys():
 	for n in 50:
 		_on_MobTimer_timeout()
-		yield(get_tree().create_timer(0.001), "timeout")
+		await get_tree().create_timer(0.001).timeout
 	
 func _update_high_scores():
 	var settings = Settings.load_settings()
@@ -43,10 +45,8 @@ func _update_high_scores():
 	settings.save_file()
 	$HUD.show_high_scores(settings.most_gifts, settings.longest_survival, new_record)
 
-
 func _new_game():
 	_reset_game_state()
-		
 	$Player.start($StartPosition.position, starting_hats)
 	$HUD.update_score(score, seconds_survived)
 	$HUD.show_message("Get Ready")
@@ -88,14 +88,14 @@ func _init_viewport():
 	$HUD.set_game_state(HudGameState.SPLASH)
 
 func _play_intro():
-	yield(get_tree().create_timer(2), "timeout")
+	await get_tree().create_timer(2).timeout
 	
 	$Background.show()
 	$Background.set_modulate(Color(1,1,1,0))
 	
 	for n in 30:
 		$Background.set_modulate(lerp($Background.get_modulate(), Color(1,1,1,1), 0.2))
-		yield(get_tree().create_timer(0.001), "timeout")
+		await get_tree().create_timer(0.001).timeout
 
 	$HUD.set_game_state(HudGameState.START)
 
@@ -116,14 +116,14 @@ func _on_MobTimer_timeout():
 	
 	mob_spawn_count += 0.1
 	for n in floor(mob_spawn_count):
-		$MobPath/MobSpawnLocation.offset = randi()
-		var mob = Mob.instance()
+		$MobPath/MobSpawnLocation.progress = randi()
+		var mob = Mob.instantiate()
 		add_child(mob)
 		var direction = $MobPath/MobSpawnLocation.rotation + PI / 2
 		mob.position = $MobPath/MobSpawnLocation.position
-		direction += rand_range(-PI / 4, PI / 4)
+		direction += randf_range(-PI / 4, PI / 4)
 		mob.rotation = direction
-		mob.linear_velocity = Vector2(rand_range(mob.min_speed, mob.max_speed), 0)
+		mob.linear_velocity = Vector2(randf_range(mob.min_speed, mob.max_speed), 0)
 		mob.linear_velocity = mob.linear_velocity.rotated(direction)
 		if showing_hats < turkey_hats:
 			mob.has_hat = true
@@ -149,11 +149,11 @@ func _on_GiftTimer_timeout():
 	var gift_pos: Vector2
 	var found_too_close = false
 	for i in 10:
-		gift_pos = Vector2(rand_range(GIFT_SCREEN_BUFFER, screen_size.x - GIFT_SCREEN_BUFFER), rand_range(GIFT_SCREEN_BUFFER_TOP, screen_size.y - GIFT_SCREEN_BUFFER))
+		gift_pos = Vector2(randf_range(GIFT_SCREEN_BUFFER, screen_size.x - GIFT_SCREEN_BUFFER), randf_range(GIFT_SCREEN_BUFFER_TOP, screen_size.y - GIFT_SCREEN_BUFFER))
 		found_too_close = false
 		if gift_pos.distance_to($Player.position) < 100:
 			found_too_close = true
-			break
+			continue
 
 		for g in other_gifts:
 			if gift_pos.distance_to(g.position) < 100:
@@ -166,7 +166,7 @@ func _on_GiftTimer_timeout():
 	if found_too_close:
 		return
 	
-	var gift = Gift.instance()
+	var gift = Gift.instantiate()
 	add_child(gift)
 	gift.position = gift_pos
 	
@@ -178,9 +178,9 @@ func _on_Player_gifted():
 	
 func _notification(what):
 	match what:
-		MainLoop.NOTIFICATION_WM_FOCUS_OUT:
-			background_time = OS.get_unix_time()
-		MainLoop.NOTIFICATION_WM_FOCUS_IN:
-			var now = OS.get_unix_time()
+		MainLoop.NOTIFICATION_APPLICATION_FOCUS_OUT:
+			background_time = Time.get_unix_time_from_system()
+		MainLoop.NOTIFICATION_APPLICATION_FOCUS_IN:
+			var now = Time.get_unix_time_from_system()
 			if !game_running and now - background_time > BACKGROUND_RESET_TIMEOUT:
 				$HUD.set_game_state(HudGameState.START)

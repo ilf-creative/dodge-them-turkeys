@@ -8,18 +8,18 @@ var _on_success
 var _google_play_billing
 
 
-func _init(products: Array, pay_success: FuncRef, pay_error: FuncRef):
+func _init(products: Array, pay_success: Callable, pay_error: Callable):
 	product_list = products
 	_on_error = pay_error
 	_on_success = pay_success
 	
 	if Engine.has_singleton("GodotGooglePlayBilling"):
 		_google_play_billing = Engine.get_singleton("GodotGooglePlayBilling")
-		_google_play_billing.connect("connected", self, "_on_connected") # No params
-		_google_play_billing.connect("connect_error", self, "_on_connect_error") # Response ID (int), Debug message (string)
-		_google_play_billing.connect("purchases_updated", self, "_on_purchases_updated") # Purchases (Dictionary[])
-		_google_play_billing.connect("purchase_error", self, "_on_purchase_error") # Response ID (int), Debug message (string)
-		_google_play_billing.connect("sku_details_query_completed", self, "_on_sku_details_query_completed") # SKUs (Dictionary[])
+		_google_play_billing.connect("connected", Callable(self, "_on_connected")) # No params
+		_google_play_billing.connect("connect_error", Callable(self, "_on_connect_error")) # Response ID (int), Debug message (string)
+		_google_play_billing.connect("purchases_updated", Callable(self, "_on_purchases_updated")) # Purchases (Dictionary[])
+		_google_play_billing.connect("purchase_error", Callable(self, "_on_purchase_error")) # Response ID (int), Debug message (string)
+		_google_play_billing.connect("sku_details_query_completed", Callable(self, "_on_sku_details_query_completed")) # SKUs (Dictionary[])
 		
 		# not needed .. maybe one day?
 		# _google_play_billing.connect("disconnected", self, "_on_disconnected") # No params
@@ -55,13 +55,13 @@ func _on_connected():
 		_on_purchases_updated(query.purchases)
 
 func _on_purchases_updated(purchases: Array):
-	for purchase in purchases:
-		if purchase.purchase_state == 1: # 1 means "purchased", see https://developer.android.com/reference/com/android/billingclient/api/Purchase.PurchaseState#constants_1
-			_on_success.call_funcv([purchase.sku])
-			if not purchase.is_acknowledged:
-				_google_play_billing.acknowledgePurchase(purchase.purchase_token)
+	for pItem in purchases:
+		if pItem.purchase_state == 1: # 1 means "purchased", see https://developer.android.com/reference/com/android/billingclient/api/Purchase.PurchaseState#constants_1
+			_on_success.call_funcv([pItem.sku])
+			if not pItem.is_acknowledged:
+				_google_play_billing.acknowledgePurchase(pItem.purchase_token)
 
-func _on_connect_error(id: int, msg: String):
+func _on_connect_error(_id: int, _msg: String):
 	_on_purchase_error(-999, "Unable to connect")
 	
 func _on_purchase_error(id: int, msg: String):

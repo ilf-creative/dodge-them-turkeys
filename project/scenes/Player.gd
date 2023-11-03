@@ -4,8 +4,8 @@ signal gifted
 
 const SCREEN_BUFFER_TOP = 60
 
-export var speed = 400
-export var hats = 1
+@export var speed = 400
+@export var hats = 1
 
 var screen_size
 var target = Vector2.ZERO
@@ -15,7 +15,7 @@ var oldTarget = Vector2.ZERO
 func start(pos, start_hats = 1):
 	position = pos
 	hats = start_hats
-	$AnimatedSprite.animation = _get_hat_name("down")
+	$AnimatedSprite2D.animation = _get_hat_name("down")
 	$CollisionShape2D.disabled = false
 	target = Vector2.ZERO
 	oldTarget = Vector2.ZERO
@@ -43,9 +43,9 @@ func _process(delta):
 		var distance = (target - position)
 		if (distance.length() > 20):
 			velocity = (target - position).normalized()
-			$AnimatedSprite.play()
+			$AnimatedSprite2D.play()
 		else:
-			$AnimatedSprite.stop()
+			$AnimatedSprite2D.stop()
 			velocity = Vector2.ZERO
 			position = target
 			target = Vector2.ZERO
@@ -54,22 +54,22 @@ func _process(delta):
 
 	if velocity.length() > 0:
 		velocity = velocity.normalized() * speed
-		$AnimatedSprite.play()
+		$AnimatedSprite2D.play()
 	else:
-		$AnimatedSprite.stop()
+		$AnimatedSprite2D.stop()
 		
 	position += velocity * delta
 	position.x = clamp(position.x, 0, screen_size.x)
 	position.y = clamp(position.y, SCREEN_BUFFER_TOP, screen_size.y)
-	var angle = abs(rad2deg(velocity.angle()))
+	var angle = abs(rad_to_deg(velocity.angle()))
 	var isUpDownAngle = angle > 60 and angle < 120
 
 	if velocity.x != 0 and !isUpDownAngle:
-		$AnimatedSprite.animation = _get_hat_name("right")
-		$AnimatedSprite.flip_v = false
-		$AnimatedSprite.flip_h = velocity.x < 0
+		$AnimatedSprite2D.animation = _get_hat_name("right")
+		$AnimatedSprite2D.flip_v = false
+		$AnimatedSprite2D.flip_h = velocity.x < 0
 	elif velocity.y != 0 or isUpDownAngle:
-		$AnimatedSprite.animation = _get_hat_name("down") if velocity.y > 0 else _get_hat_name("up")
+		$AnimatedSprite2D.animation = _get_hat_name("down") if velocity.y > 0 else _get_hat_name("up")
 
 func _get_hat_name(direction):
 	var hat_prefix = str(clamp(hats, 0, 3)) + "h_"
@@ -80,7 +80,7 @@ func _on_Player_body_entered(body):
 		if body.has_hat:
 			hats += 1
 			body.has_hat = false
-			$AnimatedSprite.animation = _get_hat_name($AnimatedSprite.animation.split('_')[1])
+			$AnimatedSprite2D.animation = _get_hat_name($AnimatedSprite2D.animation.split('_')[1])
 		elif hats < 1:
 			hide()
 			emit_signal("hit")
@@ -88,8 +88,7 @@ func _on_Player_body_entered(body):
 		else:
 			hats -= 1
 			body.take_hat()
-			$AnimatedSprite.animation = _get_hat_name($AnimatedSprite.animation.split('_')[1])
-			
+			$AnimatedSprite2D.animation = _get_hat_name($AnimatedSprite2D.animation.split('_')[1])
 	elif body.is_in_group("gifts"):
 		emit_signal("gifted")
 		body.queue_free()
@@ -98,7 +97,5 @@ func _on_Player_body_entered(body):
 func _input(event):
 	if event is InputEventScreenTouch or event is InputEventMouseButton:
 		if event.is_pressed():
-			var x = event.position.x
-			var y = event.position.y
 			target = get_global_mouse_position()
 			

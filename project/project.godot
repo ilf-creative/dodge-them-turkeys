@@ -6,70 +6,25 @@
 ;   [section] ; section goes between []
 ;   param=value ; assign values to parameters
 
-config_version=4
-
-_global_script_classes=[ {
-"base": "Reference",
-"class": "HudGameState",
-"language": "GDScript",
-"path": "res://types/HudGameStateEnum.gd"
-}, {
-"base": "Reference",
-"class": "Payment",
-"language": "GDScript",
-"path": "res://lib/payment/Payment.gd"
-}, {
-"base": "Reference",
-"class": "PaymentApple",
-"language": "GDScript",
-"path": "res://lib/payment/PaymentApple.gd"
-}, {
-"base": "Reference",
-"class": "PaymentGoogle",
-"language": "GDScript",
-"path": "res://lib/payment/PaymentGoogle.gd"
-}, {
-"base": "Reference",
-"class": "Settings",
-"language": "GDScript",
-"path": "res://lib/settings/Settings.gd"
-}, {
-"base": "Reference",
-"class": "SettingsState",
-"language": "GDScript",
-"path": "res://lib/settings/SettingsState.gd"
-}, {
-"base": "Reference",
-"class": "Utils",
-"language": "GDScript",
-"path": "res://lib/utils/Utils.gd"
-} ]
-_global_script_class_icons={
-"HudGameState": "",
-"Payment": "",
-"PaymentApple": "",
-"PaymentGoogle": "",
-"Settings": "",
-"SettingsState": "",
-"Utils": ""
-}
+config_version=5
 
 [application]
 
 config/name="Dodge The Turkeys"
 run/main_scene="res://scenes/Main.tscn"
+config/features=PackedStringArray("4.1")
+boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/image="res://dodge_assets/art/blank-splash.png"
-boot_splash/bg_color=Color( 0, 0, 0, 1 )
 config/icon="res://icon.png"
 
 [display]
 
-window/size/width=480
-window/size/height=720
+window/size/viewport_width=648
+window/size/viewport_height=1152
 window/size/resizable=false
-window/handheld/orientation="portrait"
 window/stretch/mode="2d"
 window/stretch/aspect="expand"
+window/handheld/orientation="portrait"
 
 [physics]
 
@@ -77,8 +32,8 @@ common/enable_pause_aware_picking=true
 
 [rendering]
 
+environment/defaults/default_clear_color=Color(1, 1, 1, 1)
+environment/defaults/default_environment="res://default_env.tres"
 quality/driver/fallback_to_gles2=true
 vram_compression/import_etc=true
 vram_compression/import_pvrtc=true
-environment/default_clear_color=Color( 1, 1, 1, 1 )
-environment/default_environment="res://default_env.tres"

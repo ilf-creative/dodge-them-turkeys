@@ -7,7 +7,7 @@ var _on_error
 var _on_success
 var _in_app_store
 
-func _init(products: Array, pay_success: FuncRef, pay_error: FuncRef):
+func _init(products: Array, pay_success: Callable, pay_error: Callable):
 	product_list = products
 	_on_error = pay_error
 	_on_success = pay_success

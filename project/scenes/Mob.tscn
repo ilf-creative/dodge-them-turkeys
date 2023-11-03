@@ -1,49 +1,58 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=8 format=3 uid="uid://bhh6khoptqphh"]
 
-[ext_resource path="res://dodge_assets/art/turkey1.png" type="Texture" id=1]
-[ext_resource path="res://scenes/Mob.gd" type="Script" id=2]
-[ext_resource path="res://dodge_assets/art/turkey2.png" type="Texture" id=3]
-[ext_resource path="res://dodge_assets/art/turkey-hat1.png" type="Texture" id=4]
-[ext_resource path="res://dodge_assets/art/turkey-hat2.png" type="Texture" id=5]
+[ext_resource type="Texture2D" uid="uid://cog1rpkypkfe" path="res://dodge_assets/art/turkey1.png" id="1"]
+[ext_resource type="Script" path="res://scenes/Mob.gd" id="2"]
+[ext_resource type="Texture2D" uid="uid://qfjvl8nm007w" path="res://dodge_assets/art/turkey2.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://dm3ao7k6vqntn" path="res://dodge_assets/art/turkey-hat1.png" id="4"]
+[ext_resource type="Texture2D" uid="uid://bgodr67r1o3bs" path="res://dodge_assets/art/turkey-hat2.png" id="5"]
 
-[sub_resource type="SpriteFrames" id=1]
-animations = [ {
-"frames": [ ExtResource( 1 ), ExtResource( 3 ) ],
+[sub_resource type="SpriteFrames" id="1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3")
+}],
 "loop": true,
-"name": "fly",
+"name": &"fly",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 4 ), ExtResource( 5 ) ],
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5")
+}],
 "loop": true,
-"name": "flyhat",
+"name": &"flyhat",
 "speed": 5.0
-} ]
+}]
 
-[sub_resource type="CapsuleShape2D" id=2]
-radius = 24.0
+[sub_resource type="CapsuleShape2D" id="2"]
+radius = 8.0
 height = 16.0
 
 [node name="Mob" type="RigidBody2D" groups=["mobs"]]
 collision_mask = 0
 gravity_scale = 0.0
-script = ExtResource( 2 )
-__meta__ = {
-"_edit_group_": true
-}
+script = ExtResource("2")
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-scale = Vector2( 0.2, 0.2 )
-frames = SubResource( 1 )
-animation = "flyhat"
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.2, 0.2)
+sprite_frames = SubResource("1")
+animation = &"flyhat"
 frame = 1
-playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-rotation = 1.5708
-shape = SubResource( 2 )
+position = Vector2(7, 0)
+scale = Vector2(4, 3)
+shape = SubResource("2")
 
-[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
-position = Vector2( 0.5, 1.90735e-06 )
-scale = Vector2( 4.55, 2.9 )
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(0.5, 1.90735e-06)
+scale = Vector2(4.55, 2.9)
 
-[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

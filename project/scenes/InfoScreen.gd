@@ -49,8 +49,8 @@ func _set_hats(new_value):
 	_update_hat_display()
 	
 func _init_payment():
-	var on_success = funcref(self, "_on_payment_success")
-	var on_error = funcref(self, "_on_payment_error")
+	var on_success = Callable(self, "_on_payment_success")
+	var on_error = Callable(self, "_on_payment_error")
 	payment = Payment.new([HATS1_PID, HATS2_PID], on_success, on_error)
 
 	if payment.can_pay:
@@ -67,7 +67,7 @@ func _on_payment_success(pid):
 	elif pid == HATS2_PID and bonus_hats < 2:
 		_set_hats(2)
 
-func _on_payment_error(id, msg):
+func _on_payment_error(id, _msg):
 	$Control/LoadingIndicator.hide()
 	OS.alert("There was an error processing your payment")
 	

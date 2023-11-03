@@ -9,21 +9,21 @@ var new_record = false
 func _ready():
 	$VersionLabel.text = "1.3.3"
 	screen_size = get_viewport().get_visible_rect().size
-	score_rect_start_height = $ScoreRect.rect_size.y
+	score_rect_start_height = $ScoreRect.size.y
 	_set_score_rect_fullscreen(true)
 
-func _process(delta):
+func _process(_delta):
 	if (!target_score_rect_height):
 		return
 	
-	var scale = $ScoreRect.rect_size.y
+	var scaleY = $ScoreRect.size.y
 	var speed = 10
 	var limit_buffer = 50
-	var step = speed * (-1 if scale > target_score_rect_height else 1)
-	$ScoreRect.rect_size.y += step
+	var step = speed * (-1 if scaleY > target_score_rect_height else 1)
+	$ScoreRect.size.y += step
 
-	if abs($ScoreRect.rect_size.y - target_score_rect_height) < limit_buffer:
-		$ScoreRect.rect_size.y = target_score_rect_height
+	if abs($ScoreRect.size.y - target_score_rect_height) < limit_buffer:
+		$ScoreRect.size.y = target_score_rect_height
 		target_score_rect_height = null
 
 func set_game_state(state):
@@ -42,8 +42,8 @@ func set_game_state(state):
 		$StartButton.show()
 		$VersionLabel.show()
 		$InfoButton.show()
-		$InfoButton.margin_top = 40
-		$InfoButton.margin_bottom = 41
+		$InfoButton.offset_top = 40
+		$InfoButton.offset_bottom = 41
 		$Logo.show()
 		$Message.hide()
 		$StartButton.text = " START "
@@ -56,8 +56,8 @@ func set_game_state(state):
 		$StartButton.show()
 		$InfoButton.show()
 		$ScoreLabel.show()
-		$InfoButton.margin_top = 100
-		$InfoButton.margin_bottom = 141
+		$InfoButton.offset_top = 100
+		$InfoButton.offset_bottom = 141
 		$TimerLabel.show()
 		$VersionLabel.show()
 		$RecordsLabel.show()
@@ -79,13 +79,13 @@ func show_message(text):
 
 func show_game_over(text):
 	show_message("GAME OVER")
-	yield($MessageTimer, "timeout")
+	await $MessageTimer.timeout
 
 	$MessageTimer.stop()
 	$Message.text = text
 	$Message.show()
 
-	yield(get_tree().create_timer(1), "timeout")
+	await get_tree().create_timer(1).timeout
 	set_game_state(HudGameState.END)
 
 func update_score(score, time):

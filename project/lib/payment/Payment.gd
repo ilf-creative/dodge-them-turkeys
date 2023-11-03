@@ -4,7 +4,7 @@ var apple
 var google
 var can_pay = false
 
-func _init(products: Array, pay_success: FuncRef, pay_error: FuncRef):
+func _init(products: Array, pay_success: Callable, pay_error: Callable):
 	apple = PaymentApple.new(products, pay_success, pay_error)
 	google = PaymentGoogle.new(products, pay_success, pay_error)
 	can_pay = apple.can_pay or google.can_pay

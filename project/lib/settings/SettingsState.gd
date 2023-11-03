@@ -6,9 +6,8 @@ var longest_survival = 0
 var bonus_hats = 0
 
 func load_file():
-	var f = File.new()
-	if f.file_exists(_settings_file):
-		f.open(_settings_file, File.READ)
+	if FileAccess.file_exists(_settings_file):
+		var f = FileAccess.open(_settings_file, FileAccess.READ)
 		most_gifts = Utils.or_default(f.get_var(), 0)
 		longest_survival = Utils.or_default(f.get_var(), 0)
 		bonus_hats = Utils.or_default(f.get_var(), 0)
@@ -17,8 +16,7 @@ func load_file():
 	return self
 		
 func save_file():
-	var f = File.new()
-	f.open(_settings_file, File.WRITE)
+	var f = FileAccess.open(_settings_file, FileAccess.WRITE)
 	f.store_var(most_gifts)
 	f.store_var(longest_survival)
 	f.store_var(bonus_hats)
